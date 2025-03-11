@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thank you Indonesia!</title>
+  <link rel="shortcut-icon" href="favicon.ico">
+
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/8.10.1/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/8.10.1/firebase-database.js"></script>
+  <!-- initialize the SDK after all desired features are loaded -->
+  <script defer src="/__/firebase/init.js"></script>
+
+  <script defer src="https://www.midijs.net/lib/midi.js"></script>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Thank you Indonesia!">
+  <meta property="og:description" content="Thank you Indonesia for the clean air you brought over!">
+  <meta property="og:image" content="https://thankyouindoforthecleanair.web.app/assets/JusufKalla.jpg">
+
+  <meta name="twitter:creator" content="IamRifki">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Thank you Indonesia!">
+  <meta name="twitter:description" content="Thank you Indonesia for the clean air you brought over!">
+  <meta name="twitter:image" content="https://thankyouindoforthecleanair.web.app/assets/JusufKalla.jpg">
+
+  <style media="screen">
+    @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap");
+
+    body {
+      color: white;
+      font-family: "Comic Neue", "Comic Sans MS", "Comic Sans", cursive, sans-serif;
+      font-weight: 700;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .flags {
+      height: 125px;
+    }
+
+    .pattern-one--bg {
+      background: url("/assets/Pattern1.gif") repeat fixed center;
+      padding: 4rem;
+    }
+
+    .pattern-two--bg {
+      background: url("/assets/Pattern2.gif") repeat fixed center;
+      padding: 0;
+      padding-top: 2rem;
+    }
+
+    .pattern-three--bg {
+      background: url("/assets/Pattern3.gif") repeat fixed center;
+      padding: 4rem;
+    }
+
+    footer {
+      background: url("/assets/Pattern1.gif") repeat fixed center;
+      padding: 1rem;
+    }
+
+    input[type="image"] {
+      padding-top: 10px;
+      width: 150px;
+    }
+
+    .section-three-images {
+      margin-bottom: 1rem;
+    }
+
+    .thanks--text {
+      font-size: 1.2rem;
+    }
+
+    .the-pretentious-paragraph {
+      font-size: 1.7rem;
+    }
+
+    .the-pretentious-quote {
+      font-size: 2rem;
+    }
+
+    .flex-container {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+    }
+
+    .space-between {
+      justify-content: space-between;
+    }
+
+    .blink {
+      animation: blinkingText 1.2s infinite;
+    }
+
+    @keyframes blinkingText {
+      0% {
+        opacity: 1;
+      }
+
+      49% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .jusuf-box {
+      position: relative;
+      display: inline-block;
+      /* Make the width of box same as image */
+    }
+
+    .jusuf-box .jusuf-text {
+      font-size: 15pt;
+      position: absolute;
+      z-index: 999;
+      margin: 0 auto;
+      left: 25%;
+      right: 0;
+      top: 22.5%;
+      /* Adjust this value to move the positioned div up and down */
+      text-align: center;
+      width: 60%;
+      /* Set the width of the positioned div */
+      color: black;
+    }
+
+    #jusuf {
+      height: 300px;
+    }
+
+    #jusuf-right,
+    #jusuf-left {
+      margin-bottom: -4px;
+      padding-bottom: -4px;
+    }
+
+    .reversed {
+      transform: scaleX(-1);
+    }
+
+    .thanks--counter::before {
+      content: "Indonesia has been thanked ";
+      font-size: 25pt;
+    }
+
+    .thanks--counter::after {
+      content: " times so far";
+      font-size: 25pt;
+    }
+
+    .thanks--counter {
+      font-size: 25pt;
+    }
+  </style>
+</head>
+
+<body">
+  <div class="pattern-one--bg">
+    <img class="flags" src="assets/Singapore.gif">
+    <img class="flags" src="assets/Malaysia.gif">
+    <img class="flags" src="assets/Indonesia.gif">
+
+    <h1 style="color: yellow; font-size: 35pt;">
+      <div class="blink">Thank you Indonesia for the clean air!</div>
+    </h1>
+
+    <div class="thanks--counter">
+      0
+    </div>
+  </div>
+
+  <div class="pattern-two--bg">
+    <h2>Click on the button to thank Indonesia!</h2>
+
+    <input onclick="increaseThanksLocally();" id="big-red-button" type="image" class="thanks--increment"
+      src="assets/Button.png">
+
+    <h3 class="thanks--text">You have thanked Indonesia <span id="timesUserHasThankedIndonesia">0</span> time(s)!</h3>
+    <h4 id="disable--audio" style="color: blue; display: none; cursor: pointer;">Click here to <span
+        id="state-audio--text">mute</span> music</h4>
+
+    <div class="flex-container space-between">
+      <div id="jusuf-left" style="justify-content: flex-center;">
+        <div class="jusuf-box">
+          <img id="jusuf" src="assets/JusufBubble.png">
+          <div class="jusuf-text">
+            <span class="jusuf--quotes">...</span>
+          </div>
+        </div>
+      </div>
+      <div id="jusuf-right" style="justify-content: flex-center;">
+        <div class="jusuf-box reversed">
+          <img id="jusuf" src="assets/JusufBubble.png">
+          <div class="jusuf-text">
+            <span class="jusuf--quotes">...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pattern-three--bg">
+    <img class="section-three-images" src="assets/Siren.gif"> <br>
+    <img class="section-three-images" src="assets/Flowers.gif"> <br>
+    <p class="the-pretentious-paragraph">
+      Special thanks to Former Indonesian Vice-President Jusuf Kalla (Juju) for making this site possible. Singaporeans
+      and Malaysians very appreciate your comments reminding them they need to be grateful for the generously provided
+      clean air!
+    </p>
+    <p class="the-pretentious-quote">
+      <i>“For 11 months, they (our neighbours) enjoyed nice air from Indonesia and they never thanked us. They have
+        suffered because of the haze for one month and they get upset.”</i> - Former Indonesian Vice-President Jusuf
+      Kalla (Juju)
+    </p>
+    <img style="height: 300px;" src="assets/ThumbsUp.jpg">
+    <div class="flex-container space-between">
+      <div style="justify-content: flex-center;">
+        <img class="reversed" src="assets/Angel.gif">
+      </div>
+      <div style="justify-content: flex-center;">
+        <img src="assets/Angel.gif">
+      </div>
+    </div>
+    <p>
+      This website is a relaunch of <a
+        href="https://coconuts.co/jakarta/news/grateful-singaporeans-set-site-thank-indonesia-11-months-clean-air-they-get-us-year/">the
+        original thankyouindoforthecleanair.com website which launched in 2015</a> amid
+      comments made by Juju about the haze crisis in Singapore. <a
+        href="https://mothership.sg/2019/09/thank-indonesia-fresh-air-website-closed/">Sadly, the
+        original website went dark around 2019</a>.
+    </p>
+    <p>
+      This relaunched version was made by Indonesian Dania Rifki in her spare time, Thank you for visiting!
+    </p>
+  </div>
+
+  <script>
+    /* Global Thanks Counter Tracker */
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const counter = document.getElementsByClassName("thanks--counter")[0];
+      const counterRef = firebase.database().ref("incremental_counter");
+      counterRef.on("value", (snapshot) => {
+        counter.textContent = snapshot.val().toLocaleString();
+      });
+
+      const incrementButton = document.getElementsByClassName(
+        "thanks--increment"
+      )[0];
+      incrementButton.addEventListener(
+        "click",
+        () => {
+          counterRef.set(firebase.database.ServerValue.increment(1));
+        },
+        false
+      );
+    });
+
+    /* Local Thanks Counter Tracker */
+
+    if (!localStorage.hasOwnProperty("localCount")) {
+      localStorage.setItem("localCount", 0);
+    }
+    let count = localStorage.getItem("localCount");
+
+    document.getElementById("timesUserHasThankedIndonesia").innerHTML = count.toLocaleString();
+
+    function increaseThanksLocally() {
+      ++count;
+      document.getElementById("timesUserHasThankedIndonesia").innerHTML = count.toLocaleString();
+      localStorage.setItem("localCount", count);
+    }
+
+    /* Play Music */
+
+    let isAudioEnabled = true;
+
+    document.getElementById("big-red-button").addEventListener(
+      "click",
+      function (event) {
+        MIDIjs.play("/assets/music.mid");
+        document.getElementById("disable--audio").style.display = "block";
+      },
+      { once: true }
+    );
+
+    document.getElementById("big-red-button").addEventListener(
+      "click",
+      function (event) {
+        new Audio("/assets/thankyou.m4a").play();
+      },
+    );
+
+    document
+      .getElementById("disable--audio")
+      .addEventListener("click", function (event) {
+        if (isAudioEnabled) {
+          isAudioEnabled = false;
+          MIDIjs.pause();
+          document.getElementById("state-audio--text").innerHTML = "unmute";
+        } else {
+          isAudioEnabled = true;
+          MIDIjs.resume();
+          document.getElementById("state-audio--text").innerHTML = "mute";
+        }
+      });
+
+    /* Jusuf Kalla Quotes */
+
+    const responses = [
+      "Ju-Suf Power!",
+      "Kopi, Tea or Me?",
+      "Kalla Thank you!",
+      "Steady brudder!",
+      "I rock!",
+      "I heart you!",
+      "No worries Buddy!",
+      "*Like*",
+      "That's alright *smiles*",
+      "Indonesia STRONK",
+      "Booyah!",
+    ];
+
+    document
+      .getElementById("big-red-button")
+      .addEventListener("click", function (event) {
+        const responseText =
+          responses[Math.floor(Math.random() * responses.length)];
+        document.getElementsByClassName(
+          "jusuf--quotes"
+        )[0].innerHTML = responseText;
+        document.getElementsByClassName(
+          "jusuf--quotes"
+        )[1].innerHTML = responseText;
+      });
+  </script>
+
+  <footer>
+    <h2>This website was made by <a href="https://kaleidosium.github.io">Dania Rifki</a></h2>
+    <h3><a href="https://github.com/Kaleidosium/thankyouindoforthecleanair">Source code here</a></h3>
+  </footer>
+  </body>
+
+</html>
