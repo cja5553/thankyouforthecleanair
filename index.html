@@ -270,18 +270,6 @@
       );
     });
 
-    
-      // Update Firebase and localStorage on button click
-      const incrementButton = document.getElementById("big-red-button");
-      incrementButton.addEventListener("click", function () {
-        counterRef.set(firebase.database.ServerValue.increment(1)); // ✅ Update Firebase
-    
-        let localCount = parseInt(localStorage.getItem("localCount") || 0) + 1;
-        localStorage.setItem("localCount", localCount);
-      });
-    });
-
-
     /* Local Thanks Counter Tracker */
 
     if (!localStorage.hasOwnProperty("localCount")) {
@@ -290,7 +278,7 @@
     let count = localStorage.getItem("localCount");
 
     document.getElementById("timesUserHasThankedIndonesia").innerHTML = count.toLocaleString();
-    
+
     function increaseThanksLocally() {
       ++count;
       document.getElementById("timesUserHasThankedIndonesia").innerHTML = count.toLocaleString();
@@ -365,3 +353,6 @@
   </body>
 
 </html>
+
+The thanks counter does not work, can I change it to be the same number as the counter here
+<h3 class="thanks--text">You have thanked America <span id="timesUserHasThankedIndonesia">0</span> time(s)!</h3>
