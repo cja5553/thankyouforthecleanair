@@ -251,24 +251,50 @@
   <script>
     /* Global Thanks Counter Tracker */
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const counter = document.getElementsByClassName("thanks--counter")[0];
-      const counterRef = firebase.database().ref("incremental_counter");
-      counterRef.on("value", (snapshot) => {
-        counter.textContent = snapshot.val().toLocaleString();
-      });
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   const counter = document.getElementsByClassName("thanks--counter")[0];
+    //   const counterRef = firebase.database().ref("incremental_counter");
+    //   counterRef.on("value", (snapshot) => {
+    //     counter.textContent = snapshot.val().toLocaleString();
+    //   });
 
-      const incrementButton = document.getElementsByClassName(
-        "thanks--increment"
-      )[0];
-      incrementButton.addEventListener(
-        "click",
-        () => {
-          counterRef.set(firebase.database.ServerValue.increment(1));
-        },
-        false
-      );
+    //   const incrementButton = document.getElementsByClassName(
+    //     "thanks--increment"
+    //   )[0];
+    //   incrementButton.addEventListener(
+    //     "click",
+    //     () => {
+    //       counterRef.set(firebase.database.ServerValue.increment(1));
+    //     },
+    //     false
+    //   );
+    // });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const globalCounter = document.getElementsByClassName("thanks--counter")[0];
+      const localCounter = document.getElementById("timesUserHasThankedIndonesia");
+    
+      const counterRef = firebase.database().ref("incremental_counter");
+    
+      // Sync Firebase counter with both global and local counters
+      counterRef.on("value", (snapshot) => {
+        const count = snapshot.val();
+        if (count !== null) {
+          globalCounter.textContent = count.toLocaleString();
+          localCounter.textContent = count.toLocaleString(); // ✅ Sync both counters
+        }
+      });
+    
+      // Update Firebase and localStorage on button click
+      const incrementButton = document.getElementById("big-red-button");
+      incrementButton.addEventListener("click", function () {
+        counterRef.set(firebase.database.ServerValue.increment(1)); // ✅ Update Firebase
+    
+        let localCount = parseInt(localStorage.getItem("localCount") || 0) + 1;
+        localStorage.setItem("localCount", localCount);
+      });
     });
+
 
     /* Local Thanks Counter Tracker */
 
@@ -279,11 +305,11 @@
 
     document.getElementById("timesUserHasThankedIndonesia").innerHTML = count.toLocaleString();
 
-    function increaseThanksLocally() {
-      ++count;
-      document.getElementById("timesUserHasThankedIndonesia").innerHTML = count.toLocaleString();
-      localStorage.setItem("localCount", count);
-    }
+    // function increaseThanksLocally() {
+    //   ++count;
+    //   document.getElementById("timesUserHasThankedIndonesia").innerHTML = count.toLocaleString();
+    //   localStorage.setItem("localCount", count);
+    // }
 
     /* Play Music */
 
